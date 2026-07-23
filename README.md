@@ -1,26 +1,18 @@
-# Mon Spyder — Version 2
+# Mon Spyder — Version 3
 
-Version personnalisée de l’application Mon Spyder.
+Nouvelle interface inspirée d’une application haut de gamme.
 
 ## Nouveautés
+- nouvelle image d’accueil sans voiture ni maison;
+- navigation latérale sur ordinateur;
+- navigation mobile en bas de l’écran;
+- statistiques de saison;
+- suivi du niveau d’essence;
+- journal de bord avec météo et souvenirs;
+- suivi d’entretien;
+- défis personnels;
+- parcours enregistrés;
+- données conservées dans le navigateur.
 
-- vraie photo du Can-Am Spyder RT Limited;
-- nouveau thème noir mat et bleu pétrole;
-- accueil personnalisé selon l’heure;
-- tableau de bord de la saison;
-- journal des sorties amélioré;
-- progression visuelle de la liste avant départ;
-- fiche Mon véhicule;
-- signature « Développé avec cœur par Émilie ».
-
-## Mise à jour du projet GitHub
-
-Remplacer les anciens fichiers du dépôt par :
-
-- `index.html`
-- `style.css`
-- `script.js`
-- `README.md`
-- le dossier `assets`
-
-Ensuite faire un commit et un push dans GitHub Desktop.
+## Installation
+Remplacer les anciens fichiers du dépôt GitHub par le contenu de ce dossier, puis faire un commit et un push.
