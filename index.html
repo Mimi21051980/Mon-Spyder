@@ -2,18 +2,18 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#050c12">
-  <meta name="description" content="Mon Spyder — tableau de bord personnel">
-  <title>Mon Spyder — Version 4</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#07141c">
+  <meta name="description" content="Mon Spyder — ton compagnon de route personnel">
+  <title>Mon Spyder — 4.1 Prête pour la route</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="app-shell">
   <aside class="sidebar">
     <div class="brand">
-      <div class="brand-icon">◉</div>
-      <div class="brand-copy"><span>Mon</span><strong>Spyder</strong></div>
+      <div class="brand-icon">S</div>
+      <div class="brand-copy"><span>MON</span><strong>SPYDER</strong><small>PRÊTE POUR LA ROUTE</small></div>
     </div>
 
     <nav class="desktop-nav">
@@ -28,228 +28,139 @@
       <button class="nav-item" data-page="settings"><span>☼</span><b>Réglages</b></button>
     </nav>
 
-    <button class="sidebar-cta" data-page="newRide">+ Nouvelle sortie</button>
+    <button class="sidebar-cta" data-page="checklist"><span>＋</span> Préparer une balade</button>
 
     <div class="weather-widget">
       <div class="weather-line"><span class="sun">☀</span><strong id="weatherTemp">24°C</strong></div>
       <p id="weatherText">Ensoleillé</p>
-      <small>Parfait pour rouler !</small>
+      <small>Une belle journée pour rouler.</small>
     </div>
   </aside>
 
   <main class="main">
     <section id="home" class="page active">
       <div class="hero">
-        <img src="assets/spyder-hero-v4.png" alt="Can-Am Spyder bleu pétrole">
+        <img src="assets/spyder-hero-v4.png" alt="Can-Am Spyder RT Limited bleu pétrole">
         <div class="hero-mask"></div>
+        <div class="hero-topline"><span class="version-badge">VERSION 4.1</span><div id="today" class="date-pill"></div></div>
         <div class="hero-content">
           <div id="greeting" class="greeting">Bonjour Émilie !</div>
-          <h1>Prête pour une nouvelle aventure ? <span>💙</span></h1>
+          <h1>Une nouvelle aventure commence.</h1>
+          <p>Ton Spyder est prêt. Prends la route à ton rythme.</p>
+          <button class="hero-cta" data-page="checklist">Préparer ma balade <span>→</span></button>
         </div>
-        <div id="today" class="date-pill"></div>
       </div>
+
+      <div class="section-heading first"><div><span class="eyebrow">TABLEAU DE BORD</span><h2>Ta saison en un coup d’œil</h2></div><button class="text-button" data-page="stats">Tout voir →</button></div>
 
       <div class="dashboard-grid">
         <article class="dashboard-card season-card">
-          <div class="card-heading">
-            <span>Saison <b id="seasonYear"></b></span>
-            <span class="accent">↗</span>
-          </div>
-          <div class="big-number"><strong id="seasonKm">0</strong><small> km parcourus</small></div>
+          <div class="card-heading"><span>Saison <b id="seasonYear"></b></span><span class="icon-chip">↗</span></div>
+          <div class="big-number"><strong id="seasonKm">0</strong><small>km parcourus</small></div>
           <div class="tiny-stats">
             <div><b id="seasonRides">0</b><span>sorties</span></div>
             <div><b id="longestRide">0 km</b><span>plus longue</span></div>
             <div><b id="routeCount">0</b><span>parcours</span></div>
           </div>
-          <button class="card-link" data-page="stats">Voir mes statistiques</button>
         </article>
 
         <article class="dashboard-card">
-          <div class="card-heading">
-            <span>Dernière sortie</span>
-            <span class="accent">▣</span>
-          </div>
+          <div class="card-heading"><span>Dernière sortie</span><span class="icon-chip">♡</span></div>
           <strong id="lastRideDate" class="card-highlight">Aucune</strong>
           <p id="lastRideInfo">Ajoute ta première sortie</p>
-          <p id="lastRideName">—</p>
-          <button class="card-link" data-page="journal">Voir le journal</button>
+          <p id="lastRideName" class="muted">—</p>
+          <button class="card-link" data-page="journal">Ouvrir le journal →</button>
         </article>
 
         <article class="dashboard-card">
-          <div class="card-heading">
-            <span>Prochain entretien</span>
-            <span class="accent">⚙</span>
-          </div>
+          <div class="card-heading"><span>Prochain entretien</span><span class="icon-chip">⚙</span></div>
           <strong id="maintenanceDue" class="card-highlight">À définir</strong>
           <p id="maintenanceSub">Ajoute ton prochain kilométrage</p>
-          <button class="card-link" data-page="maintenance">Voir l’entretien</button>
+          <button class="card-link" data-page="maintenance">Voir l’entretien →</button>
         </article>
 
         <article class="dashboard-card fuel-card">
-          <div class="card-heading">
-            <span>Niveau d’essence</span>
-            <span class="accent">⛽</span>
-          </div>
-          <div class="fuel-gauge"><strong id="fuelValue">78%</strong></div>
-          <p id="fuelMessage">Bien parti !</p>
+          <div class="card-heading"><span>Niveau d’essence</span><span class="icon-chip">⛽</span></div>
+          <div class="fuel-ring"><div class="fuel-gauge"><strong id="fuelValue">78%</strong><small>réservoir</small></div></div>
+          <p id="fuelMessage">Bien partie !</p>
         </article>
       </div>
 
-      <div class="section-heading">
-        <h2>Accès rapide</h2>
-        <span>Tout ce qu’il te faut avant la route</span>
-      </div>
-
+      <div class="section-heading"><div><span class="eyebrow">RACCOURCIS</span><h2>Tout ce qu’il te faut</h2></div></div>
       <div class="quick-grid">
-        <button data-page="checklist"><span class="quick-icon">✓</span><span><b>Avant de partir</b><small>Ma checklist</small></span></button>
-        <button data-page="journal"><span class="quick-icon">♡</span><span><b>Journal de bord</b><small>Mes sorties</small></span></button>
-        <button data-page="routes"><span class="quick-icon">⌖</span><span><b>Parcours</b><small>Mes itinéraires</small></span></button>
-        <button data-page="maintenance"><span class="quick-icon">⚙</span><span><b>Entretien</b><small>Suivi et rappels</small></span></button>
-        <button data-page="challenges"><span class="quick-icon trophy">★</span><span><b>Défis</b><small>À relever</small></span></button>
+        <button data-page="checklist"><span class="quick-icon">✓</span><span><b>Avant de partir</b><small>Ma checklist de sécurité</small></span><i>→</i></button>
+        <button data-page="journal"><span class="quick-icon">♡</span><span><b>Journal de bord</b><small>Mes souvenirs de route</small></span><i>→</i></button>
+        <button data-page="routes"><span class="quick-icon">⌖</span><span><b>Parcours</b><small>Mes itinéraires préférés</small></span><i>→</i></button>
+        <button data-page="maintenance"><span class="quick-icon">⚙</span><span><b>Entretien</b><small>Suivi et rappels</small></span><i>→</i></button>
+        <button data-page="challenges"><span class="quick-icon trophy">★</span><span><b>Défis</b><small>Mes prochaines victoires</small></span><i>→</i></button>
       </div>
-
-      <p class="signature">Mon Spyder — Conçu avec 💙 par Émilie</p>
+      <p class="signature">Mon Spyder <span>•</span> Conçu avec 💙 par Émilie</p>
     </section>
 
-    <section id="checklist" class="page">
-      <div class="page-header">
-        <button class="back" data-page="home">←</button>
-        <div><small>SÉCURITÉ</small><h2>Avant de partir</h2></div>
+    <section id="checklist" class="page inner-page">
+      <div class="page-header"><button class="back" data-page="home">←</button><div><small>SÉCURITÉ AVANT TOUT</small><h2>Avant de partir</h2><p>Une vérification simple pour rouler l’esprit tranquille.</p></div></div>
+      <div class="content-panel">
+        <div id="checklistItems" class="stack"></div>
+        <div class="progress-wrap"><div class="progress-label"><span>Progression</span><strong id="checkCount">0 / 15</strong></div><div class="progress-bar"><span id="progressFill"></span></div></div>
+        <button id="readyBtn" class="primary full" disabled>Démarrer ma balade</button>
+        <button id="resetChecklist" class="secondary full">Réinitialiser la checklist</button>
       </div>
-      <p class="intro">Une petite vérification pour partir l’esprit tranquille.</p>
-      <div id="checklistItems" class="stack"></div>
-      <div class="progress-wrap">
-        <div class="progress-label"><span>Progression</span><strong id="checkCount">0 / 15</strong></div>
-        <div class="progress-bar"><span id="progressFill"></span></div>
-      </div>
-      <button id="readyBtn" class="primary full" disabled>Je suis prête</button>
-      <button id="resetChecklist" class="secondary full">Réinitialiser</button>
     </section>
 
-    <section id="journal" class="page">
-      <div class="page-header">
-        <button class="back" data-page="home">←</button>
-        <div><small>MES AVENTURES</small><h2>Journal de bord</h2></div>
+    <section id="rideMode" class="page ride-page">
+      <div class="ride-live">
+        <span class="live-badge"><i></i> BALADE EN COURS</span>
+        <div class="ride-logo">S</div>
+        <h2>Bonne route, Émilie.</h2>
+        <p>Profite du paysage. Tu n’as rien à prouver.</p>
+        <div class="ride-timer" id="rideTimer">00:00:00</div>
+        <small>Temps écoulé</small>
+        <button id="finishRideBtn" class="finish-button">Terminer la balade</button>
       </div>
-      <div class="summary-cards">
-        <article><span>Sorties</span><strong id="journalCount">0</strong></article>
-        <article><span>Distance</span><strong id="journalKm">0 km</strong></article>
-        <article><span>Confiance moyenne</span><strong id="journalConfidence">—</strong></article>
-      </div>
-      <button class="primary full" data-page="newRide">+ Nouvelle sortie</button>
-      <div id="rideList" class="cards-list"></div>
     </section>
 
-    <section id="newRide" class="page">
-      <div class="page-header">
-        <button class="back" data-page="journal">←</button>
-        <div><small>NOUVEAU SOUVENIR</small><h2>Ajouter une sortie</h2></div>
-      </div>
+    <section id="journal" class="page inner-page">
+      <div class="page-header"><button class="back" data-page="home">←</button><div><small>MES AVENTURES</small><h2>Journal de bord</h2><p>Chaque balade devient un souvenir.</p></div></div>
+      <div class="summary-cards"><article><span>Sorties</span><strong id="journalCount">0</strong></article><article><span>Distance</span><strong id="journalKm">0 km</strong></article><article><span>Confiance moyenne</span><strong id="journalConfidence">—</strong></article></div>
+      <button class="primary full" data-page="newRide">+ Ajouter une sortie</button><div id="rideList" class="cards-list"></div>
+    </section>
+
+    <section id="newRide" class="page inner-page">
+      <div class="page-header"><button class="back" data-page="journal">←</button><div><small>NOUVEAU SOUVENIR</small><h2>Ajouter une sortie</h2><p>Raconte ce que tu veux garder de cette balade.</p></div></div>
       <form id="rideForm" class="form-card">
         <label>Nom de la sortie<input name="name" required placeholder="Ex. Vieux-Terrebonne"></label>
-        <div class="form-row">
-          <label>Date<input name="date" type="date" required></label>
-          <label>Distance (km)<input name="distance" type="number" min="0" required></label>
-        </div>
-        <div class="form-row">
-          <label>Durée<input name="duration" placeholder="Ex. 2 h 15"></label>
-          <label>Météo<input name="weather" placeholder="Ex. Soleil, 24°C"></label>
-        </div>
-        <div class="form-row">
-          <label>Plaisir / 10<input name="fun" type="number" min="1" max="10" required></label>
-          <label>Confiance / 10<input name="confidence" type="number" min="1" max="10" required></label>
-        </div>
-        <label>Moment préféré<textarea name="favorite" placeholder="Le plus beau moment de la sortie"></textarea></label>
-        <label>Notes<textarea name="notes" placeholder="Comment s’est passée la ride ?"></textarea></label>
+        <div class="form-row"><label>Date<input name="date" type="date" required></label><label>Distance (km)<input name="distance" type="number" min="0" required></label></div>
+        <div class="form-row"><label>Durée<input name="duration" placeholder="Ex. 2 h 15"></label><label>Météo<input name="weather" placeholder="Ex. Soleil, 24°C"></label></div>
+        <div class="form-row"><label>Plaisir / 10<input name="fun" type="number" min="1" max="10" required></label><label>Confiance / 10<input name="confidence" type="number" min="1" max="10" required></label></div>
+        <label>Moment préféré<textarea name="favorite" placeholder="Le plus beau moment de la sortie"></textarea></label><label>Notes<textarea name="notes" placeholder="Comment s’est passée la balade ?"></textarea></label>
         <button class="primary full" type="submit">Enregistrer le souvenir</button>
       </form>
     </section>
 
-    <section id="routes" class="page">
-      <div class="page-header">
-        <button class="back" data-page="home">←</button>
-        <div><small>MES ROUTES</small><h2>Parcours</h2></div>
-      </div>
-      <form id="routeForm" class="form-card">
-        <label>Nom du parcours<input name="name" required placeholder="Ex. Route des Laurentides"></label>
-        <div class="form-row">
-          <label>Distance estimée<input name="distance" type="number" min="0"></label>
-          <label>Difficulté<select name="difficulty"><option>Facile</option><option>Intermédiaire</option><option>Difficile</option></select></label>
-        </div>
-        <button class="primary full" type="submit">Ajouter le parcours</button>
-      </form>
-      <div id="routeList" class="cards-list"></div>
-    </section>
+    <section id="routes" class="page inner-page"><div class="page-header"><button class="back" data-page="home">←</button><div><small>MES ROUTES</small><h2>Parcours</h2><p>Les chemins que tu aimerais reprendre.</p></div></div><form id="routeForm" class="form-card"><label>Nom du parcours<input name="name" required placeholder="Ex. Route des Laurentides"></label><div class="form-row"><label>Distance estimée<input name="distance" type="number" min="0"></label><label>Difficulté<select name="difficulty"><option>Facile</option><option>Intermédiaire</option><option>Difficile</option></select></label></div><button class="primary full" type="submit">Ajouter le parcours</button></form><div id="routeList" class="cards-list"></div></section>
 
-    <section id="maintenance" class="page">
-      <div class="page-header">
-        <button class="back" data-page="home">←</button>
-        <div><small>SUIVI DU SPYDER</small><h2>Entretien</h2></div>
-      </div>
-      <div id="maintenanceStatus" class="status-card"></div>
-      <form id="maintenanceForm" class="form-card">
-        <label>Kilométrage actuel<input id="mileageInput" type="number" min="0"></label>
-        <label>Prochain entretien à<input id="maintenanceInput" type="number" min="0"></label>
-        <label>Niveau d’essence (%)<input id="fuelInput" type="number" min="0" max="100"></label>
-        <label>Notes<textarea id="maintenanceNotes" placeholder="Huile, pneus, batterie, rendez-vous..."></textarea></label>
-        <button class="primary full" type="submit">Enregistrer</button>
-      </form>
-    </section>
+    <section id="maintenance" class="page inner-page"><div class="page-header"><button class="back" data-page="home">←</button><div><small>SUIVI DU SPYDER</small><h2>Entretien</h2><p>Pour prendre soin de la machine qui prend soin de toi.</p></div></div><div id="maintenanceStatus" class="status-card"></div><form id="maintenanceForm" class="form-card"><label>Kilométrage actuel<input id="mileageInput" type="number" min="0"></label><label>Prochain entretien à<input id="maintenanceInput" type="number" min="0"></label><label>Niveau d’essence (%)<input id="fuelInput" type="number" min="0" max="100"></label><label>Notes<textarea id="maintenanceNotes" placeholder="Huile, pneus, batterie, rendez-vous..."></textarea></label><button class="primary full" type="submit">Enregistrer</button></form></section>
 
-    <section id="challenges" class="page">
-      <div class="page-header">
-        <button class="back" data-page="home">←</button>
-        <div><small>MA PROGRESSION</small><h2>Défis</h2></div>
-      </div>
-      <div id="challengeList" class="stack"></div>
-    </section>
-
-    <section id="stats" class="page">
-      <div class="page-header">
-        <button class="back" data-page="home">←</button>
-        <div><small>MA SAISON</small><h2>Statistiques</h2></div>
-      </div>
-      <div class="big-stats">
-        <article><span>Kilomètres</span><strong id="statsKm">0</strong></article>
-        <article><span>Sorties</span><strong id="statsRides">0</strong></article>
-        <article><span>Plus longue sortie</span><strong id="statsLongest">0 km</strong></article>
-        <article><span>Confiance moyenne</span><strong id="statsConfidence">—</strong></article>
-      </div>
-    </section>
-
-    <section id="vehicle" class="page">
-      <div class="page-header">
-        <button class="back" data-page="home">←</button>
-        <div><small>MON VÉHICULE</small><h2>Mon Spyder</h2></div>
-      </div>
-      <img class="vehicle-image" src="assets/spyder-hero-v4.png" alt="Mon Can-Am Spyder bleu pétrole">
-      <div class="vehicle-card">
-        <div><span>Modèle</span><strong>Can-Am Spyder RT Limited</strong></div>
-        <div><span>Année</span><strong>2024</strong></div>
-        <div><span>Couleur</span><strong>Bleu pétrole</strong></div>
-        <div><span>Kilométrage</span><strong id="vehicleKm">0 km</strong></div>
-      </div>
-    </section>
-
-    <section id="settings" class="page">
-      <div class="page-header">
-        <button class="back" data-page="home">←</button>
-        <div><small>PERSONNALISATION</small><h2>Réglages</h2></div>
-      </div>
-      <form id="settingsForm" class="form-card">
-        <label>Température affichée<input id="settingTemp" placeholder="Ex. 24°C"></label>
-        <label>État de la météo<input id="settingWeather" placeholder="Ex. Ensoleillé"></label>
-        <button class="primary full" type="submit">Enregistrer</button>
-      </form>
-    </section>
+    <section id="challenges" class="page inner-page"><div class="page-header"><button class="back" data-page="home">←</button><div><small>MA PROGRESSION</small><h2>Défis</h2><p>De petites victoires qui bâtissent ta confiance.</p></div></div><div id="challengeList" class="stack"></div></section>
+    <section id="stats" class="page inner-page"><div class="page-header"><button class="back" data-page="home">←</button><div><small>MA SAISON</small><h2>Statistiques</h2><p>Le chemin parcouru, à ta façon.</p></div></div><div class="big-stats"><article><span>Kilomètres</span><strong id="statsKm">0</strong></article><article><span>Sorties</span><strong id="statsRides">0</strong></article><article><span>Plus longue sortie</span><strong id="statsLongest">0 km</strong></article><article><span>Confiance moyenne</span><strong id="statsConfidence">—</strong></article></div></section>
+    <section id="vehicle" class="page inner-page"><div class="page-header"><button class="back" data-page="home">←</button><div><small>MON VÉHICULE</small><h2>Mon Spyder</h2><p>Ton compagnon d’aventure.</p></div></div><img class="vehicle-image" src="assets/spyder-hero-v4.png" alt="Mon Can-Am Spyder bleu pétrole"><div class="vehicle-card"><div><span>Modèle</span><strong>Can-Am Spyder RT Limited</strong></div><div><span>Année</span><strong>2024</strong></div><div><span>Couleur</span><strong>Bleu pétrole</strong></div><div><span>Kilométrage</span><strong id="vehicleKm">0 km</strong></div></div></section>
+    <section id="settings" class="page inner-page"><div class="page-header"><button class="back" data-page="home">←</button><div><small>PERSONNALISATION</small><h2>Réglages</h2><p>Ajuste les renseignements affichés.</p></div></div><form id="settingsForm" class="form-card"><label>Température affichée<input id="settingTemp" placeholder="Ex. 24°C"></label><label>État de la météo<input id="settingWeather" placeholder="Ex. Ensoleillé"></label><button class="primary full" type="submit">Enregistrer</button></form></section>
   </main>
 
   <footer class="mobile-nav">
-    <button data-page="home"><span>⌂</span><small>Accueil</small></button>
-    <button data-page="checklist"><span>✓</span><small>Départ</small></button>
-    <button data-page="journal"><span>♡</span><small>Journal</small></button>
-    <button data-page="maintenance"><span>⚙</span><small>Entretien</small></button>
+    <button class="mobile-active" data-page="home"><span>⌂</span><small>Accueil</small></button><button data-page="checklist"><span>✓</span><small>Départ</small></button><button data-page="journal"><span>♡</span><small>Journal</small></button><button data-page="maintenance"><span>⚙</span><small>Entretien</small></button>
   </footer>
+</div>
+
+<div id="gratitudeOverlay" class="gratitude-overlay" aria-hidden="true">
+  <div class="gratitude-card">
+    <div class="gratitude-mark">S</div>
+    <span>FIN DE LA BALADE</span>
+    <h2>Merci, mon Spyder.</h2>
+    <p>Merci pour cette promenade en toute sécurité.</p>
+    <strong>Chaque balade est une nouvelle histoire.</strong>
+    <div class="gratitude-line"></div>
+  </div>
 </div>
 <script src="script.js"></script>
 </body>

@@ -1,21 +1,15 @@
-# Mon Spyder — Version 4
+# Mon Spyder — Version 4.1 « Prête pour la route »
 
-Refonte complète de l’application Mon Spyder.
+Nouvelle interface premium, pensée pour téléphone et ordinateur.
 
 ## Nouveautés
-- interface premium basée sur la maquette validée;
-- grand visuel du Spyder sans voiture ni maison;
-- menu latéral sur ordinateur;
-- navigation mobile en bas;
-- tableau de bord de saison;
-- journal de bord;
-- parcours;
-- entretien;
-- niveau d’essence;
-- défis;
-- statistiques;
-- réglages météo manuels;
-- données conservées dans le navigateur.
+- Accueil entièrement modernisé
+- Tableau de bord plus clair
+- Boutons et cartes adaptés au téléphone
+- Mode « balade en cours » avec chronomètre
+- Rituel de fin de balade « Merci, mon Spyder »
+- Retour automatique vers l'ajout d'un souvenir
+- Toutes les données existantes restent enregistrées dans le navigateur
 
-## Installation
-Remplacer les anciens fichiers du dépôt GitHub par le contenu de ce dossier, puis faire un commit et un push.
+## Mise en ligne
+Remplace les fichiers du dépôt GitHub par le contenu de ce dossier, puis fais un commit et un push avec GitHub Desktop.

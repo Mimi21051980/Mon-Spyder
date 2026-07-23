@@ -21,6 +21,7 @@ function goTo(pageId){
   if(target) target.classList.add("active");
   document.querySelectorAll(".nav-item").forEach(n=>n.classList.toggle("active",n.dataset.page===pageId));
   window.scrollTo({top:0,behavior:"smooth"});
+  document.querySelectorAll(".mobile-nav button").forEach(n=>n.classList.toggle("mobile-active",n.dataset.page===pageId));
   renderAll();
 }
 document.addEventListener("click",e=>{
@@ -59,7 +60,36 @@ document.getElementById("resetChecklist").addEventListener("click",()=>{
   document.querySelectorAll("[data-check]").forEach(c=>c.checked=false);
   updateChecklist();
 });
-document.getElementById("readyBtn").addEventListener("click",()=>alert("Tout est prêt. Bonne route Émilie ! 💙"));
+let rideStartedAt=null;
+let rideTimerInterval=null;
+function updateRideTimer(){
+  if(!rideStartedAt) return;
+  const seconds=Math.floor((Date.now()-rideStartedAt)/1000);
+  const h=String(Math.floor(seconds/3600)).padStart(2,"0");
+  const m=String(Math.floor((seconds%3600)/60)).padStart(2,"0");
+  const sec=String(seconds%60).padStart(2,"0");
+  document.getElementById("rideTimer").textContent=`${h}:${m}:${sec}`;
+}
+document.getElementById("readyBtn").addEventListener("click",()=>{
+  rideStartedAt=Date.now();
+  clearInterval(rideTimerInterval);
+  rideTimerInterval=setInterval(updateRideTimer,1000);
+  updateRideTimer();
+  goTo("rideMode");
+});
+document.getElementById("finishRideBtn").addEventListener("click",()=>{
+  clearInterval(rideTimerInterval);
+  const overlay=document.getElementById("gratitudeOverlay");
+  overlay.classList.add("show");
+  overlay.setAttribute("aria-hidden","false");
+  setTimeout(()=>{
+    overlay.classList.remove("show");
+    overlay.setAttribute("aria-hidden","true");
+    document.querySelectorAll("[data-check]").forEach(c=>c.checked=false);
+    updateChecklist();
+    goTo("newRide");
+  },4200);
+});
 document.getElementById("rideForm").addEventListener("submit",e=>{
   e.preventDefault();
   state.rides.unshift(Object.fromEntries(new FormData(e.target).entries()));
@@ -155,7 +185,7 @@ function renderMaintenance(){
   document.getElementById("maintenanceNotes").value=m.notes||"";
   document.getElementById("vehicleKm").textContent=`${m.mileage||0} km`;
   document.getElementById("fuelValue").textContent=`${m.fuel??78}%`;
-  document.getElementById("fuelMessage").textContent=m.fuel>=60?"Bien parti !":m.fuel>=30?"À surveiller":"Pense à faire le plein";
+  document.getElementById("fuelMessage").textContent=m.fuel>=60?"Bien partie !":m.fuel>=30?"À surveiller":"Pense à faire le plein";
   const status=document.getElementById("maintenanceStatus");
   if(!m.next){
     status.innerHTML="<strong>Prochain entretien à définir</strong><p>Ajoute le kilométrage prévu.</p>";
