@@ -1,17 +1,20 @@
-# Mon Spyder — Version 3
+# Mon Spyder — Version 4
 
-Nouvelle interface inspirée d’une application haut de gamme.
+Refonte complète de l’application Mon Spyder.
 
 ## Nouveautés
-- nouvelle image d’accueil sans voiture ni maison;
-- navigation latérale sur ordinateur;
-- navigation mobile en bas de l’écran;
-- statistiques de saison;
-- suivi du niveau d’essence;
-- journal de bord avec météo et souvenirs;
-- suivi d’entretien;
-- défis personnels;
-- parcours enregistrés;
+- interface premium basée sur la maquette validée;
+- grand visuel du Spyder sans voiture ni maison;
+- menu latéral sur ordinateur;
+- navigation mobile en bas;
+- tableau de bord de saison;
+- journal de bord;
+- parcours;
+- entretien;
+- niveau d’essence;
+- défis;
+- statistiques;
+- réglages météo manuels;
 - données conservées dans le navigateur.
 
 ## Installation
