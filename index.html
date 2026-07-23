@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#102a43" />
+  <title>Mon Spyder</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">MON AVENTURE</p>
+        <h1>Mon Spyder</h1>
+      </div>
+      <button class="icon-btn" id="profileButton" aria-label="Profil">🏍️</button>
+    </header>
+
+    <main>
+      <section id="home" class="screen active">
+        <article class="hero-card">
+          <div>
+            <p class="muted">Bonjour Mimi 👋</p>
+            <h2>Can-Am Spyder RT Limited</h2>
+            <p>2024 · Bleu pétrole</p>
+          </div>
+          <div class="spyder-emoji">🏍️</div>
+        </article>
+
+        <div class="stats-grid">
+          <article class="stat-card">
+            <span>Kilométrage</span>
+            <strong id="homeMileage">0 km</strong>
+          </article>
+          <article class="stat-card">
+            <span>Confiance</span>
+            <strong id="homeConfidence">— / 10</strong>
+          </article>
+        </div>
+
+        <article class="ready-card">
+          <div>
+            <span class="status-dot"></span>
+            <strong>Prête pour une nouvelle sortie</strong>
+          </div>
+          <button class="primary-btn" data-go="checklist">Avant de partir</button>
+        </article>
+
+        <h3>Mes outils</h3>
+        <div class="menu-grid">
+          <button class="menu-card" data-go="journal"><span>📖</span>Journal</button>
+          <button class="menu-card" data-go="maintenance"><span>🛠️</span>Entretien</button>
+          <button class="menu-card" data-go="routes"><span>🗺️</span>Parcours</button>
+          <button class="menu-card" data-go="challenges"><span>🏆</span>Défis</button>
+        </div>
+      </section>
+
+      <section id="checklist" class="screen">
+        <div class="section-heading">
+          <button class="back-btn" data-go="home">←</button>
+          <div><p class="eyebrow">SÉCURITÉ</p><h2>Avant de partir</h2></div>
+        </div>
+        <div id="checklistItems" class="checklist"></div>
+        <button id="readyButton" class="primary-btn full" disabled>Je suis prête</button>
+        <button id="resetChecklist" class="secondary-btn full">Réinitialiser</button>
+      </section>
+
+      <section id="journal" class="screen">
+        <div class="section-heading">
+          <button class="back-btn" data-go="home">←</button>
+          <div><p class="eyebrow">MES SOUVENIRS</p><h2>Journal des sorties</h2></div>
+        </div>
+        <div class="stats-grid">
+          <article class="stat-card"><span>Sorties</span><strong id="rideCount">0</strong></article>
+          <article class="stat-card"><span>Distance</span><strong id="totalDistance">0 km</strong></article>
+        </div>
+        <button id="newRideButton" class="primary-btn full">+ Nouvelle sortie</button>
+        <div id="rideList" class="card-list"></div>
+      </section>
+
+      <section id="newRide" class="screen">
+        <div class="section-heading">
+          <button class="back-btn" data-go="journal">←</button>
+          <div><p class="eyebrow">NOUVEAU SOUVENIR</p><h2>Ajouter une sortie</h2></div>
+        </div>
+        <form id="rideForm" class="form-card">
+          <label>Nom de la sortie<input name="name" required placeholder="Ex. Vieux-Terrebonne" /></label>
+          <label>Date<input name="date" type="date" required /></label>
+          <label>Distance (km)<input name="distance" type="number" min="0" required /></label>
+          <label>Durée<input name="duration" placeholder="Ex. 2 h 15" /></label>
+          <label>Plaisir (1 à 10)<input name="fun" type="number" min="1" max="10" required /></label>
+          <label>Confiance (1 à 10)<input name="confidence" type="number" min="1" max="10" required /></label>
+          <label>Moment préféré<textarea name="favorite" placeholder="Le plus beau moment de la sortie"></textarea></label>
+          <label>Notes<textarea name="notes" placeholder="Comment s'est passée la ride?"></textarea></label>
+          <button class="primary-btn full" type="submit">Enregistrer la sortie</button>
+        </form>
+      </section>
+
+      <section id="maintenance" class="screen">
+        <div class="section-heading">
+          <button class="back-btn" data-go="home">←</button>
+          <div><p class="eyebrow">MON VÉHICULE</p><h2>Entretien</h2></div>
+        </div>
+        <form id="maintenanceForm" class="form-card">
+          <label>Kilométrage actuel<input id="mileageInput" type="number" min="0" /></label>
+          <label>Prochain changement d'huile à<input id="oilInput" type="number" min="0" /></label>
+          <label>Notes d'entretien<textarea id="maintenanceNotes"></textarea></label>
+          <button class="primary-btn full" type="submit">Enregistrer</button>
+        </form>
+        <article class="info-card" id="oilStatus"></article>
+      </section>
+
+      <section id="routes" class="screen">
+        <div class="section-heading">
+          <button class="back-btn" data-go="home">←</button>
+          <div><p class="eyebrow">MES ROUTES</p><h2>Parcours</h2></div>
+        </div>
+        <form id="routeForm" class="form-card compact">
+          <label>Nom du parcours<input name="name" required placeholder="Ex. Ride Lanaudière" /></label>
+          <label>Distance estimée<input name="distance" type="number" min="0" /></label>
+          <label>Difficulté
+            <select name="difficulty"><option>Facile</option><option>Intermédiaire</option><option>Difficile</option></select>
+          </label>
+          <button class="primary-btn full">Ajouter</button>
+        </form>
+        <div id="routeList" class="card-list"></div>
+      </section>
+
+      <section id="challenges" class="screen">
+        <div class="section-heading">
+          <button class="back-btn" data-go="home">←</button>
+          <div><p class="eyebrow">MA PROGRESSION</p><h2>Mes défis</h2></div>
+        </div>
+        <div id="challengeList" class="challenge-list"></div>
+      </section>
+
+      <section id="success" class="screen success-screen">
+        <div class="success-icon">🏍️</div>
+        <h2>Bonne route Mimi!</h2>
+        <p>Profite de ta journée et roule à ton rythme.</p>
+        <button class="primary-btn" data-go="newRide">Commencer la sortie</button>
+        <button class="secondary-btn" data-go="home">Retour à l'accueil</button>
+      </section>
+    </main>
+
+    <nav class="bottom-nav">
+      <button data-go="home" class="active"><span>🏠</span>Accueil</button>
+      <button data-go="checklist"><span>✅</span>Départ</button>
+      <button data-go="journal"><span>📖</span>Journal</button>
+      <button data-go="maintenance"><span>🛠️</span>Entretien</button>
+    </nav>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
