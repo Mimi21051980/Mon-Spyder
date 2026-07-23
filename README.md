@@ -1,24 +1,26 @@
-# Mon Spyder
+# Mon Spyder — Version 2
 
-Application Web simple pour préparer les sorties, conserver un journal, suivre l'entretien, enregistrer des parcours et célébrer les progrès en Spyder.
+Version personnalisée de l’application Mon Spyder.
 
-## Utilisation
+## Nouveautés
 
-1. Ouvrir `index.html` dans un navigateur.
-2. Les données sont enregistrées localement dans le navigateur.
-3. Pour publier gratuitement, déposer les fichiers sur GitHub puis activer GitHub Pages.
+- vraie photo du Can-Am Spyder RT Limited;
+- nouveau thème noir mat et bleu pétrole;
+- accueil personnalisé selon l’heure;
+- tableau de bord de la saison;
+- journal des sorties amélioré;
+- progression visuelle de la liste avant départ;
+- fiche Mon véhicule;
+- signature « Développé avec cœur par Émilie ».
 
-## Fichiers
+## Mise à jour du projet GitHub
 
-- `index.html` : structure de l'application
-- `style.css` : apparence
-- `script.js` : fonctionnement et sauvegarde locale
+Remplacer les anciens fichiers du dépôt par :
 
-## Version actuelle
+- `index.html`
+- `style.css`
+- `script.js`
+- `README.md`
+- le dossier `assets`
 
-- Accueil
-- Liste avant départ
-- Journal des sorties
-- Entretien
-- Parcours
-- Défis
+Ensuite faire un commit et un push dans GitHub Desktop.
