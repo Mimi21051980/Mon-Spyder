@@ -60,22 +60,276 @@ document.getElementById("resetChecklist").addEventListener("click",()=>{
   document.querySelectorAll("[data-check]").forEach(c=>c.checked=false);
   updateChecklist();
 });
-let rideStartedAt=null;
-let rideTimerInterval=null;
-function updateRideTimer(){
-  if(!rideStartedAt) return;
-  const seconds=Math.floor((Date.now()-rideStartedAt)/1000);
-  const h=String(Math.floor(seconds/3600)).padStart(2,"0");
-  const m=String(Math.floor((seconds%3600)/60)).padStart(2,"0");
-  const sec=String(seconds%60).padStart(2,"0");
-  document.getElementById("rideTimer").textContent=`${h}:${m}:${sec}`;
+let rideStartedAt = null;
+let rideTimerInterval = null;
+let rideWatchId = null;
+let ridePaused = false;
+let ridePausedAt = null;
+let rideTotalPausedMs = 0;
+let rideDistanceKm = 0;
+let rideLastPosition = null;
+let rideWeather = "";
+let rideFinishedDuration = "";
+
+function formatRideDuration(seconds) {
+  const h = String(Math.floor(seconds / 3600)).padStart(2, "0");
+  const m = String(Math.floor((seconds % 3600) / 60)).padStart(2, "0");
+  const s = String(seconds % 60).padStart(2, "0");
+  return `${h}:${m}:${s}`;
 }
-document.getElementById("readyBtn").addEventListener("click",()=>{
-  rideStartedAt=Date.now();
-  clearInterval(rideTimerInterval);
-  rideTimerInterval=setInterval(updateRideTimer,1000);
+
+function getRideSeconds() {
+  if (!rideStartedAt) return 0;
+
+  const endTime = ridePaused && ridePausedAt ? ridePausedAt : Date.now();
+  return Math.max(
+    0,
+    Math.floor((endTime - rideStartedAt - rideTotalPausedMs) / 1000)
+  );
+}
+
+function updateRideTimer() {
+  document.getElementById("rideTimer").textContent =
+    formatRideDuration(getRideSeconds());
+}
+
+function updateRideDistance() {
+  document.getElementById("rideDistance").textContent =
+    `${rideDistanceKm.toFixed(1).replace(".", ",")} km`;
+}
+
+function distanceBetween(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const toRad = value => value * Math.PI / 180;
+
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRad(lat1)) *
+    Math.cos(toRad(lat2)) *
+    Math.sin(dLon / 2) *
+    Math.sin(dLon / 2);
+
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+function handleRidePosition(position) {
+  if (ridePaused) return;
+
+  const current = {
+    lat: position.coords.latitude,
+    lon: position.coords.longitude,
+    accuracy: position.coords.accuracy
+  };
+
+  // Ignore les positions trop imprécises.
+  if (current.accuracy > 50) return;
+
+  if (rideLastPosition) {
+    const segment = distanceBetween(
+      rideLastPosition.lat,
+      rideLastPosition.lon,
+      current.lat,
+      current.lon
+    );
+
+    // Évite d'ajouter les petits mouvements causés par l'imprécision GPS.
+    if (segment >= 0.01 && segment <= 2) {
+      rideDistanceKm += segment;
+      updateRideDistance();
+    }
+  }
+
+  rideLastPosition = current;
+}
+
+function handleRideGpsError(error) {
+  console.warn("GPS :", error.message);
+  document.getElementById("rideDistance").textContent = "GPS indisponible";
+}
+
+function startGpsTracking() {
+  if (!navigator.geolocation) {
+    document.getElementById("rideDistance").textContent = "GPS indisponible";
+    return;
+  }
+
+  if (rideWatchId !== null) {
+    navigator.geolocation.clearWatch(rideWatchId);
+  }
+
+  rideWatchId = navigator.geolocation.watchPosition(
+    handleRidePosition,
+    handleRideGpsError,
+    {
+      enableHighAccuracy: true,
+      maximumAge: 0,
+      timeout: 15000
+    }
+  );
+}
+
+function stopGpsTracking() {
+  if (rideWatchId !== null && navigator.geolocation) {
+    navigator.geolocation.clearWatch(rideWatchId);
+    rideWatchId = null;
+  }
+}
+
+async function loadRideWeather() {
+  const weatherElement = document.getElementById("rideWeather");
+  weatherElement.textContent = "Recherche...";
+
+  if (!navigator.geolocation) {
+    weatherElement.textContent = "Indisponible";
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    async position => {
+      try {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+
+        const url =
+          `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}` +
+          `&current=temperature_2m,weather_code&timezone=auto`;
+
+        const response = await fetch(url);
+        if (!response.ok) throw new Error("Météo indisponible");
+
+        const data = await response.json();
+        const temperature = Math.round(data.current.temperature_2m);
+        const code = data.current.weather_code;
+
+        const descriptions = {
+          0: "Dégagé",
+          1: "Plutôt dégagé",
+          2: "Partiellement nuageux",
+          3: "Nuageux",
+          45: "Brouillard",
+          48: "Brouillard",
+          51: "Bruine légère",
+          53: "Bruine",
+          55: "Bruine forte",
+          61: "Pluie légère",
+          63: "Pluie",
+          65: "Forte pluie",
+          71: "Neige légère",
+          73: "Neige",
+          75: "Forte neige",
+          80: "Averses légères",
+          81: "Averses",
+          82: "Fortes averses",
+          95: "Orage",
+          96: "Orage",
+          99: "Orage"
+        };
+
+        rideWeather = `${descriptions[code] || "Conditions variables"}, ${temperature} °C`;
+        weatherElement.textContent = rideWeather;
+      } catch (error) {
+        console.warn("Météo :", error);
+        rideWeather = "";
+        weatherElement.textContent = "Indisponible";
+      }
+    },
+    () => {
+      rideWeather = "";
+      weatherElement.textContent = "Indisponible";
+    },
+    {
+      enableHighAccuracy: true,
+      timeout: 15000,
+      maximumAge: 300000
+    }
+  );
+}
+
+document.getElementById("readyBtn").addEventListener("click", () => {
+  rideStartedAt = Date.now();
+  ridePaused = false;
+  ridePausedAt = null;
+  rideTotalPausedMs = 0;
+  rideDistanceKm = 0;
+  rideLastPosition = null;
+  rideWeather = "";
+  rideFinishedDuration = "";
+
+  document.getElementById("pauseRideBtn").textContent = "⏸ Faire une pause";
+  document.getElementById("pauseRideBtn").classList.remove("is-paused");
+  document.getElementById("rideTimerLabel").textContent = "Temps de conduite";
+
   updateRideTimer();
+  updateRideDistance();
+
+  clearInterval(rideTimerInterval);
+  rideTimerInterval = setInterval(updateRideTimer, 1000);
+
   goTo("rideMode");
+  startGpsTracking();
+  loadRideWeather();
+});
+
+document.getElementById("pauseRideBtn").addEventListener("click", () => {
+  const button = document.getElementById("pauseRideBtn");
+
+  if (!ridePaused) {
+    ridePaused = true;
+    ridePausedAt = Date.now();
+    stopGpsTracking();
+    rideLastPosition = null;
+
+    button.textContent = "▶ Reprendre la balade";
+    button.classList.add("is-paused");
+    document.getElementById("rideTimerLabel").textContent = "Balade en pause";
+  } else {
+    rideTotalPausedMs += Date.now() - ridePausedAt;
+    ridePausedAt = null;
+    ridePaused = false;
+    rideLastPosition = null;
+
+    button.textContent = "⏸ Faire une pause";
+    button.classList.remove("is-paused");
+    document.getElementById("rideTimerLabel").textContent = "Temps de conduite";
+
+    startGpsTracking();
+  }
+
+  updateRideTimer();
+});
+
+document.getElementById("finishRideBtn").addEventListener("click", () => {
+  clearInterval(rideTimerInterval);
+  stopGpsTracking();
+
+  rideFinishedDuration = formatRideDuration(getRideSeconds());
+
+  const distanceInput = document.querySelector('#rideForm [name="distance"]');
+  const durationInput = document.querySelector('#rideForm [name="duration"]');
+  const weatherInput = document.querySelector('#rideForm [name="weather"]');
+  const dateInput = document.querySelector('#rideForm [name="date"]');
+
+  distanceInput.value = rideDistanceKm.toFixed(1);
+  durationInput.value = rideFinishedDuration;
+  weatherInput.value = rideWeather;
+  dateInput.value = new Date().toISOString().slice(0, 10);
+
+  const overlay = document.getElementById("gratitudeOverlay");
+  overlay.classList.add("show");
+  overlay.setAttribute("aria-hidden", "false");
+
+  setTimeout(() => {
+    overlay.classList.remove("show");
+    overlay.setAttribute("aria-hidden", "true");
+
+    document.querySelectorAll("[data-check]").forEach(c => c.checked = false);
+    updateChecklist();
+
+    goTo("newRide");
+  }, 4200);
 });
 document.getElementById("finishRideBtn").addEventListener("click",()=>{
   clearInterval(rideTimerInterval);
