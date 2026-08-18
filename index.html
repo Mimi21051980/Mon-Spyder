@@ -113,9 +113,22 @@
         <div class="ride-logo">S</div>
         <h2>Bonne route, Émilie.</h2>
         <p>Profite du paysage. Tu n’as rien à prouver.</p>
-        <div class="ride-timer" id="rideTimer">00:00:00</div>
-        <small>Temps écoulé</small>
-        <button id="finishRideBtn" class="finish-button">Terminer la balade</button>
+      <div class="ride-timer" id="rideTimer">00:00:00</div>
+<small id="rideTimerLabel">Temps de conduite</small>
+
+<div class="ride-live-stats">
+  <div>
+    <span>Distance</span>
+    <strong id="rideDistance">0,0 km</strong>
+  </div>
+  <div>
+    <span>Météo</span>
+    <strong id="rideWeather">Recherche...</strong>
+  </div>
+</div>
+
+<button id="pauseRideBtn" class="pause-button">⏸ Faire une pause</button>
+<button id="finishRideBtn" class="finish-button">Terminer la balade</button>
       </div>
     </section>
 
