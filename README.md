@@ -1,4 +1,4 @@
-# Mon Spyder — Version 4.1 « Prête pour la route »
+# Mon Spyder — Version 4.2 « Prête pour la route »
 
 Nouvelle interface premium, pensée pour téléphone et ordinateur.
 
